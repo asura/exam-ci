@@ -3,7 +3,6 @@ language: cpp
 os:
   - linux
 install:
-  - echo $TRAVIS_OS_NAME
   ############################################################################
   # All the dependencies are installed in ${TRAVIS_BUILD_DIR}/deps/
   ############################################################################
@@ -17,13 +16,10 @@ install:
       CMAKE_URL="https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.tar.gz"
       mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
       export PATH=${DEPS_DIR}/cmake/bin:${PATH}
-      echo $PATH
     else
       brew upgrade cmake || brew install cmake
     fi
   - cmake --version
 script:
-  - cd $TRAVIS_BUILD_DIR
-  - mkdir build
-  - cd build
+  - cd $TRAVIS_BUILD_DIR && mkdir build && cd build
   - cmake .. && make && ./Tester
